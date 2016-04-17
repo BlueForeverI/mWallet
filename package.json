@@ -1,0 +1,31 @@
+{
+  "name": "mWallet-api",
+  "version": "0.0.1",
+  "description": "Expense tracking app",
+  "main": "app.js",
+  "scripts": {
+	"start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlueForeverI/mWallet"
+  },
+  "author": "Georgi Yolovski",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/BlueForeverI/mWallet/issues"
+  },
+	"dependencies": {
+		"express": "4.13.x",
+		"cfenv": "1.0.x",
+		"body-parser": "latest",
+		"mysql": "latest",
+		"orm": "latest",
+		"password-hash": "latest",
+		"q": "latest",
+		"q-foreach": "latest"
+	},
+	"engines": {
+		"node": "4.2.x"
+	} 
+}
