@@ -10,15 +10,23 @@ const vuexPersist = new VuexPersist({
 
 export interface AppState {
   token: string;
+  user: string;
 }
 
 export default new Vuex.Store<AppState>({
   state: {
     token: '',
+    user: '',
   },
   mutations: {
     setToken(state, token) {
       state.token = token;
+    },
+    clearToken(state) {
+      state.token = '';
+    },
+    setUser(state, user) {
+      state.user = user;
     },
   },
   actions: {

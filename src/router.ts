@@ -21,6 +21,12 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'default',
+      component: NewExpense,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/expenses/new',
       name: 'new',
       component: NewExpense,
       beforeEnter: authGuard,
