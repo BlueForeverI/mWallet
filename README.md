@@ -1,11 +1,29 @@
-# mWallet
-Expense tracking app
+# mwallet
 
-To deploy:
-	- go to the code's dir
-	- type the following commands:
-		bluemix api https://api.eu-gb.bluemix.net
-		bluemix login -u blueforeverabv@gmail.com -o blueforeverabv@gmail.com -s dev
-		cf push mwallet-api
-	- open http://mwallet-api.eu-gb.mybluemix.net to test
-		
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
