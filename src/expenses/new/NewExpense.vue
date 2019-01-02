@@ -1,21 +1,22 @@
 <template>
-  <div id="new-expense">
-    <h1>New Expense</h1>
-
-    <form @submit.prevent="create">
-      <input type="number" v-model.number="expense.amount" 
-        name="amount" placeholder="Amount" />
-
-      <select v-model="expense.categoryId">
-        <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-          {{ cat.name }}
-        </option>
-      </select>
-
-      <br />
-      <input type="submit" value="Create" />
-    </form>
-  </div>
+  <v-container fluid>
+    <v-flex md4 offset-md-4>
+      <form>
+        <v-text-field
+          type="number"
+          v-model.number="expense.amount" 
+          name="amount"
+          label="Amount"></v-text-field>
+        <v-combobox
+          v-model="expenseCategory"
+          :items="categories"
+          label="Category"
+          item-text="name">
+        </v-combobox>
+        <v-btn color="success" @click="create" class="ml-0">Create</v-btn>
+      </form>
+    </v-flex>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -35,6 +36,7 @@ export default class NewExpenseComponent extends Vue {
   @Inject()
   private expenseService!: ExpenseService;
 
+  private expenseCategory: Category = new Category('', '');
   private expense: Expense = new Expense('', 0, '', '', new Date());
   private categories: Category[] = [];
 
@@ -46,6 +48,7 @@ export default class NewExpenseComponent extends Vue {
   }
 
   private create(): void {
+    this.expense.categoryId = this.expenseCategory.id;
     this.expense.userId = this.$store.state.token;
 
     this.expenseService.create(this.expense)

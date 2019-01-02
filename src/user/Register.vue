@@ -1,24 +1,38 @@
 <template>
-  <div id="register">
-    <h1>Register</h1>
-    <router-link to="/login">Login</router-link>
-
-    <form @submit.prevent="register">
-      <input type="email" v-model="vm.email" name="email" placeholder="Email" />
-      <br />
-      <input type="password" v-model="vm.password" name="password" placeholder="Password" />
-      <br />
-      <input type="text" v-model="vm.firstName" name="firstName" placeholder="First Name" />
-      <br />
-      <input type="text" v-model="vm.lastName" name="lastName" placeholder="Last Name" />
-      <br />
-      <input type="number" v-model.number="vm.age" name="age" placeholder="Age" />
-      <br />
-
-      <input type="submit" value="Register" />
-      <p class="error-container" v-if="error">{{ error }}</p>
-    </form>
-  </div>
+  
+  <v-content>
+    <v-container fluid fill-height>
+      <v-layout align-center justify-center>
+        <v-flex xs12 sm8 md4>
+          <v-card class="elevation-12">
+            <v-toolbar dark color="primary">
+              <v-toolbar-title>Register</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <v-form>
+                <v-text-field name="email" label="Email" type="text"
+                  v-model="vm.email" @keyup.enter="register"></v-text-field>
+                <v-text-field name="password" label="Password" id="password" type="password"
+                  v-model="vm.password" @keyup.enter="register"></v-text-field>
+                <v-text-field name="firstName" label="First Name" type="text"
+                  v-model="vm.firstName" @keyup.enter="register"></v-text-field>
+                <v-text-field name="lastName" label="Last Name" type="text"
+                  v-model="vm.lastName" @keyup.enter="register"></v-text-field>
+                <v-text-field name="age" label="Age" type="number"
+                  v-model.number="vm.age" @keyup.enter="register"></v-text-field>
+              </v-form>
+              <p class="error-container" v-if="error">{{ error }}</p>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <router-link to="/login" class="mr-3">Login</router-link>
+              <v-btn color="primary" @click="register">Register</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 
 <script lang="ts">

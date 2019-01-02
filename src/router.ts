@@ -4,6 +4,7 @@ import NewExpense from './expenses/new/NewExpense.vue';
 import ListExpenses from './expenses/list/ListExpenses.vue';
 import Login from './user/Login.vue';
 import Register from './user/Register.vue';
+import Statistics from './expenses/statistics/Statistics.vue';
 import store from './store';
 
 Vue.use(Router);
@@ -36,6 +37,11 @@ export default new Router({
       name: 'expenses',
       component: ListExpenses,
       beforeEnter: authGuard,
+    },
+    {
+      path: '/expenses/statistics',
+      name: 'statistics',
+      component: Statistics,
     },
     {
       path: '/login',
