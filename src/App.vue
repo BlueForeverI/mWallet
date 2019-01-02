@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <v-container fluid>
-      <!-- <vue-loading type="spin" :size="{ width: '100%', height: '100%' }"></vue-loading> -->
+      <vue-loading type="spin" :size="{ width: '100%', height: '100%' }" v-if="isLoading"></vue-loading>
         <v-layout column>
           <v-flex tag="header" v-if="isUserLogged" md-12>
             <v-toolbar dark color="primary">
@@ -37,6 +37,10 @@ import { VueLoading } from 'vue-loading-template';
 export default class AppComponent extends Vue {
   get isUserLogged(): boolean {
     return !!this.$store.state.token;
+  }
+
+  get isLoading(): boolean {
+    return this.$store.state.isLoading;
   }
 
   get user(): string {

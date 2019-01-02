@@ -11,12 +11,14 @@ const vuexPersist = new VuexPersist({
 export interface AppState {
   token: string;
   user: string;
+  isLoading: boolean;
 }
 
 export default new Vuex.Store<AppState>({
   state: {
     token: '',
     user: '',
+    isLoading: false,
   },
   mutations: {
     setToken(state, token) {

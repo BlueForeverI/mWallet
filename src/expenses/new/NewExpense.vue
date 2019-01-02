@@ -51,6 +51,7 @@ export default class NewExpenseComponent extends Vue {
     this.expense.categoryId = this.expenseCategory.id;
     this.expense.userId = this.$store.state.token;
 
+    this.$store.state.isLoading = true;
     this.expenseService.create(this.expense)
       .then((response) => this.$router.push('/expenses'));
   }

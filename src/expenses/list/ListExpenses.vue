@@ -46,10 +46,12 @@ export default class ListExpensesComponent extends Vue {
   constructor() {
     super();
 
+    this.$store.state.isLoading = true;
     Promise.all([this.expenseService.getAll(), this.categoryService.getAll()])
       .then((resp) => {
         resp[1].data.forEach((cat) => this.categoryMap.set(cat.id, cat));
         this.expenses.push(...resp[0].data);
+        this.$store.state.isLoading = false;
       });
   }
 

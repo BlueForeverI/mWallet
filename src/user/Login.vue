@@ -45,13 +45,16 @@ export default class LoginComponent  extends Vue {
   private error: string = '';
 
   private login(): void {
+    this.$store.state.isLoading = true;
     this.userService.login(this.vm)
       .then((resp) => {
+        this.$store.state.isLoading = false;
         this.$store.commit('setToken', resp.data.token);
         this.$store.commit('setUser', this.vm.email);
         this.$router.push('/expenses/new');
       })
       .catch((err) => {
+        this.$store.state.isLoading = false;
         this.error = err.response.data.message;
       });
   }

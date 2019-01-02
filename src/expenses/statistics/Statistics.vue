@@ -6,7 +6,11 @@
           <v-toolbar-title>Total</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          100
+          <v-container fluid fill-height>
+            <v-layout align-center justify-center>
+              {{ total.toFixed(2) }}
+            </v-layout>
+          </v-container>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -91,6 +95,7 @@ export default class StatisticsComponent extends Vue {
   };
 
   public mounted() {
+    this.$store.state.isLoading = true;
     Promise.all([this.expenseService.getAll(), this.categoryService.getAll()])
       .then((resp) => {
         this.categoryMap = resp[1].data.reduce((map: any, obj) => {
@@ -99,10 +104,15 @@ export default class StatisticsComponent extends Vue {
         }, {});
 
         this.expenses = resp[0].data;
+        this.$store.state.isLoading = false;
 
         this.initByCategoryChart();
         this.initByDayChart();
       });
+  }
+
+  public get total(): number {
+    return this.expenses.reduce((prev: number, curr: Expense) => prev + curr.amount, 0);
   }
 
   private initByCategoryChart(): void {
@@ -153,4 +163,12 @@ export default class StatisticsComponent extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.v-card__text:first-of-type {
+  height: 432px;
+  font-size: 5rem;
+}
+</style>
+
 
