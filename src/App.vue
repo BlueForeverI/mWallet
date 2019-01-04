@@ -51,10 +51,11 @@
         </v-navigation-drawer>
         <v-layout column>
           <v-flex tag="header" v-if="isUserLogged" md-12>
-            <v-toolbar dark color="primary" :class="{ 'justify-content-between': isMobile }">
+            <v-toolbar dark color="primary">
               <v-icon class="btm" v-if="isMobile" @click="showSideMenu = true">menu</v-icon>
+              <v-spacer v-if="isMobile"></v-spacer>
               <v-toolbar-title>mWallet</v-toolbar-title>
-              <v-spacer v-if="!isMobile"></v-spacer>
+              <v-spacer></v-spacer>
               <span v-if="!isMobile">{{ user }}</span>
               <v-icon class="btn ml-3" @click="logout">power_settings_new</v-icon>
             </v-toolbar>
@@ -83,6 +84,9 @@ import { Watch } from 'vue-property-decorator';
 
 @Component
 export default class AppComponent extends Vue {
+
+  private showSideMenu: boolean = false;
+
   get isUserLogged(): boolean {
     return !!this.$store.state.token;
   }
@@ -103,8 +107,6 @@ export default class AppComponent extends Vue {
   private onRouteChange(to: any, from: any): void {
     this.showSideMenu = false;
   }
-
-  private showSideMenu: boolean = false;
 
   private logout(): void {
     this.$store.commit('clearToken');
