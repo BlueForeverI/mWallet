@@ -1,6 +1,6 @@
 <template>
   <v-container fluid row justify-space-between>
-    <v-flex md4 px-1>
+    <v-flex md4 px-1 py-2>
       <v-card class="elevation-5">
         <v-toolbar dark color="primary">
           <v-toolbar-title>Total</v-toolbar-title>
@@ -14,7 +14,7 @@
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-flex md4 px-1>
+    <v-flex md4 px-1 py-2>
       <v-card class="elevation-5">
         <v-toolbar dark color="primary">
           <v-toolbar-title>By Category</v-toolbar-title>
@@ -24,7 +24,7 @@
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-flex md4 px-1>
+    <v-flex md4 px-1 py-2>
       <v-card class="elevation-5">
         <v-toolbar dark color="primary">
           <v-toolbar-title>By Day</v-toolbar-title>

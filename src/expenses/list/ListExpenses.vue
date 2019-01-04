@@ -56,14 +56,17 @@ export default class ListExpensesComponent extends Vue {
   }
 
   private reloadExpenses(): void {
+    this.$store.state.isLoading = true;
     this.expenseService.getAll()
       .then((resp) => {
         this.expenses.splice(0, this.expenses.length);
         this.expenses.push(...resp.data);
+        this.$store.state.isLoading = false;
       });
   }
 
   private deleteExpense(id: string): void {
+    this.$store.state.isLoading = true;
     this.expenseService.delete(id)
       .then(() => this.reloadExpenses());
   }
