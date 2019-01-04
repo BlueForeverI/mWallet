@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid px-0>
     <v-data-table
       :headers="headers"
       :items="expenses"

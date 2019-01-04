@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid row justify-space-between>
+  <v-container fluid row justify-space-between px-0>
     <v-flex md4 px-1 py-2>
       <v-card class="elevation-5">
         <v-toolbar dark color="primary">
