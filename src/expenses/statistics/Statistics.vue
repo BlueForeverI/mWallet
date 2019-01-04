@@ -77,12 +77,12 @@ export default class StatisticsComponent extends Vue {
   };
 
   private byDayChart: any = {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: [],
       datasets: [{
-        backgroundColor: this.getShuffledColors(),
         data: [],
+        fill: false,
       }],
     },
     options: {
@@ -153,6 +153,9 @@ export default class StatisticsComponent extends Vue {
         this.byDayChart.data.datasets[0].data.push(val[1]);
       });
 
+    const color = this.getShuffledColors()[0];
+    this.byDayChart.data.datasets[0].backgroundColor = color;
+    this.byDayChart.data.datasets[0].borderColor = color;
     const byCategory = new Chart('byDayChart', this.byDayChart);
   }
 
