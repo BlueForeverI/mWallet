@@ -5,6 +5,7 @@ import ListExpenses from './expenses/list/ListExpenses.vue';
 import Login from './user/Login.vue';
 import Register from './user/Register.vue';
 import Statistics from './expenses/statistics/Statistics.vue';
+import Settings from './settings/Settings.vue';
 import store from './store';
 
 Vue.use(Router);
@@ -52,6 +53,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
     },
   ],
 });

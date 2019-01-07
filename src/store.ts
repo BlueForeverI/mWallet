@@ -11,14 +11,18 @@ const vuexPersist = new VuexPersist({
 export interface AppState {
   token: string;
   user: string;
+  income: number;
   isLoading: boolean;
+  dateFormat: string;
 }
 
 export default new Vuex.Store<AppState>({
   state: {
     token: '',
     user: '',
+    income: 0,
     isLoading: false,
+    dateFormat: 'MM-DD-YYYY',
   },
   mutations: {
     setToken(state, token) {
@@ -27,8 +31,11 @@ export default new Vuex.Store<AppState>({
     clearToken(state) {
       state.token = '';
     },
-    setUser(state, user) {
+    setUser(state, user: string) {
       state.user = user;
+    },
+    setIncome(state, income: number) {
+      state.income = income;
     },
   },
   actions: {

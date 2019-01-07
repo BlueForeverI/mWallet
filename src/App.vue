@@ -47,6 +47,18 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
+            <v-divider></v-divider>
+            <v-list-tile>
+              <v-list-tile-action>
+                <v-icon>settings</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <router-link to="/settings">Settings</router-link>
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list>
         </v-navigation-drawer>
         <v-layout column>
@@ -65,6 +77,7 @@
             <router-link to="/expenses/new" class="mx-5 pb-2">New Expense</router-link>
             <router-link to="/expenses" class="mx-5 pb-2">All Expenses</router-link>
             <router-link to="/expenses/statistics" class="mx-5 pb-2">Statistics</router-link>
+            <router-link to="/settings" class="mx-5 pb-2">Settings</router-link>
           </v-flex>
 
           <v-flex md-12>

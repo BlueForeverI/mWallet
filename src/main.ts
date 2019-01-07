@@ -6,6 +6,7 @@ import VueLoading from 'vue-loading-template';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'daterangepicker/daterangepicker.css';
 import moment from 'moment';
 
 import App from './App.vue';
@@ -17,7 +18,7 @@ Vue.use(VueTypedi);
 Vue.use(VueLoading);
 Vue.use(BootstrapVue);
 
-Vue.filter('formatDate', (val: string) => moment(val).format('DD-MM-YYYY'));
+Vue.filter('formatDate', (val: string) => moment(val).format(store.state.dateFormat));
 
 new Vue({
   router,

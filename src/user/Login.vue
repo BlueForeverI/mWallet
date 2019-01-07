@@ -50,7 +50,8 @@ export default class LoginComponent  extends Vue {
       .then((resp) => {
         this.$store.state.isLoading = false;
         this.$store.commit('setToken', resp.data.token);
-        this.$store.commit('setUser', this.vm.email);
+        this.$store.commit('setUser', `${resp.data.firstName} ${resp.data.lastName}`);
+        this.$store.commit('setIncome', resp.data.income);
         this.$router.push('/expenses/new');
       })
       .catch((err) => {

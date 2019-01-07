@@ -1,5 +1,9 @@
 <template>
   <v-container fluid row justify-space-between px-0>
+    <v-flex md12>
+      <v-icon class="position-absolute mt-3 ml-3">calendar_today</v-icon>
+      <input type="text" name="daterange" id="daterange" class="border ml-1 p-3 pl-5 font-weight-bold" />
+    </v-flex>
     <v-flex md4 px-1 py-2>
       <v-card class="elevation-5">
         <v-toolbar dark color="primary">
@@ -7,8 +11,9 @@
         </v-toolbar>
         <v-card-text>
           <v-container fluid fill-height>
-            <v-layout align-center justify-center>
-              {{ total.toFixed(2) }}
+            <v-layout align-center justify-center column>
+              <p>Spent <span class="text-danger">{{ total.toFixed(2) }}</span></p>
+              <p v-if="monthlyView">Saved <span class="text-success">{{ saved.toFixed(2) }}</span></p>
             </v-layout>
           </v-container>
         </v-card-text>
@@ -40,6 +45,8 @@
 <script lang='ts'>
 import Vue from 'vue';
 import { Inject } from 'vue-typedi';
+import daterangepicker, { Options } from 'daterangepicker';
+import moment, { Moment } from 'moment';
 
 import { ExpenseService } from '@/expenses/ExpenseService';
 import { CategoryService } from '@/expenses/CategoryService';
@@ -59,6 +66,8 @@ export default class StatisticsComponent extends Vue {
 
   private expenses: Expense[] = [];
   private categoryMap: { [key: string]: string } = {};
+  private startDate: Moment = moment().startOf('month');
+  private endDate: Moment = moment().endOf('month');
 
   private byCategoryChart: any = {
     type: 'pie',
@@ -94,37 +103,85 @@ export default class StatisticsComponent extends Vue {
     },
   };
 
+  private pickerOptions: Options = {
+    opens: 'left',
+    ranges: {
+      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+      'This Month': [moment().startOf('month'), moment().endOf('month')],
+      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      'This Year': [moment().startOf('year'), moment().endOf('year')],
+    },
+    locale: {
+      format: this.$store.state.dateFormat,
+    },
+    startDate: this.startDate,
+    endDate: this.endDate,
+  };
+
   public mounted() {
     this.$store.state.isLoading = true;
-    Promise.all([this.expenseService.getAll(), this.categoryService.getAll()])
+    Promise.all([
+        this.expenseService.getAll(
+          this.pickerOptions.startDate as Moment,
+          this.pickerOptions.endDate as Moment),
+        this.categoryService.getAll()])
       .then((resp) => {
         this.categoryMap = resp[1].data.reduce((map: any, obj) => {
           map[obj.id] = obj.name;
           return map;
         }, {});
 
-        this.expenses = resp[0].data;
         this.$store.state.isLoading = false;
-
-        this.initByCategoryChart();
-        this.initByDayChart();
+        this.reloadData(resp[0].data);
       });
+
+    const picker = new daterangepicker(
+      document.getElementById('daterange')!,
+      this.pickerOptions,
+      (start: Moment, end: Moment) => {
+        this.startDate = start;
+        this.endDate = end;
+        this.expenseService.getAll(start, end)
+          .then((resp) => this.reloadData(resp.data));
+      });
+  }
+
+  private reloadData(expenses: Expense[]): void {
+    this.expenses = expenses;
+
+    this.initByCategoryChart();
+    this.initByDayChart();
   }
 
   public get total(): number {
     return this.expenses.reduce((prev: number, curr: Expense) => prev + curr.amount, 0);
   }
 
+  public get saved(): number {
+    return this.$store.state.income - this.total;
+  }
+
+  public get monthlyView(): boolean {
+    const diff = this.endDate.diff(this.startDate, 'days');
+    return diff > 28 && diff < 32;
+  }
+
   private initByCategoryChart(): void {
     const expenseMap: { [key: string]: number } = {};
     this.expenses.forEach((exp) => {
       const categoryName = this.categoryMap[exp.categoryId];
-      if (!expenseMap[categoryName]) {
-        expenseMap[categoryName] = exp.amount;
-      } else {
-        expenseMap[categoryName] += exp.amount;
+
+      if (categoryName) {
+        if (!expenseMap[categoryName]) {
+          expenseMap[categoryName] = exp.amount;
+        } else {
+          expenseMap[categoryName] += exp.amount;
+        }
       }
     });
+
+    this.byCategoryChart.data.labels = [];
+    this.byCategoryChart.data.datasets[0].data = [];
 
     Object.entries(expenseMap)
       .forEach((val) => {
@@ -147,6 +204,9 @@ export default class StatisticsComponent extends Vue {
       }
     });
 
+    this.byDayChart.data.labels = [];
+    this.byDayChart.data.datasets[0].data = [];
+
     Object.entries(expenseMap)
       .forEach((val) => {
         this.byDayChart.data.labels.push(val[0]);
@@ -168,9 +228,13 @@ export default class StatisticsComponent extends Vue {
 </script>
 
 <style lang="scss" scoped>
+#daterange {
+  font-size: 1.2rem;
+}
+
 .v-card__text:first-of-type {
   height: 432px;
-  font-size: 5rem;
+  font-size: 4rem;
 }
 </style>
 
